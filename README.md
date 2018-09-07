@@ -2,38 +2,38 @@ Airodump CSV Tools v0.6
 by Christopher Bolduc
 chris.bolduc@gmail.com
 
-Description:
+Description:  
 This is a program I wrote to analyze one or more Airodump CSV files and provide more useful output.
 
-Features:
--Merges the CSV files into one CSV file, html file, or text file, keeping the APs and Stations together.
--Has options to only show APs and Stations that are new or old in the last file you import.
--Optional text output for cron, etc.
--Adds manufacturer info (OUI) to APs and end devices, and the ESSID (if applicable) to end devices, in text/html output modes.
--Adds GPS info captured from optional Android app
+Features:  
+-Merges the CSV files into one CSV file, html file, or text file, keeping the APs and Stations together.  
+-Has options to only show APs and Stations that are new or old in the last file you import.  
+-Optional text output for cron, etc.  
+-Adds manufacturer info (OUI) to APs and end devices, and the ESSID (if applicable) to end devices, in text/html output modes.  
+-Adds GPS info captured from optional Android app  
 
-Usage: ./csvtools [options] file1 [file2] [file3]...[-l] [file n]
--a only show APs
--b print brief text in text mode
--e only show end devices (stations)
--to prints text to stdout (cannot be used with -t)
--g [file] specifies a GPS input file
--i [file] specifies a CSV file of known IP addresses
--l specifies the last file (must be the last file specified)*
--k [file] specifies a CSV file of known MAC addresses
--m only show APs and Stations in the file specified with -k
--d [delta] only shows devices whose power is stronger than before by [delta]
--n only shows APs and Stations that are new in the last file
--o only shows APs and Stations that are not new in the last file
--p [power] only shows APs and Stations with power greater than [power]
--P [power] only shows APs and Stations with power less than [power]
--sl sort by last time seen
--t only shows APs and Stations greater than the minimum time**
--T only shows APs and Stations less than the maximum time**
--u [server] [port] send findings to UDP server on [server]:[port]
--v verbose output
--vv very verbose output
--w [prefix] specifies output file prefix
+Usage: ./csvtools [options] file1 [file2] [file3]...[-l] [file n]  
+-a only show APs  
+-b print brief text in text mode  
+-e only show end devices (stations)  
+-to prints text to stdout (cannot be used with -t)  
+-g [file] specifies a GPS input file  
+-i [file] specifies a CSV file of known IP addresses  
+-l specifies the last file (must be the last file specified)*  
+-k [file] specifies a CSV file of known MAC addresses  
+-m only show APs and Stations in the file specified with -k  
+-d [delta] only shows devices whose power is stronger than before by [delta]  
+-n only shows APs and Stations that are new in the last file  
+-o only shows APs and Stations that are not new in the last file  
+-p [power] only shows APs and Stations with power greater than [power]  
+-P [power] only shows APs and Stations with power less than [power]  
+-sl sort by last time seen  
+-t only shows APs and Stations greater than the minimum time**  
+-T only shows APs and Stations less than the maximum time**  
+-u [server] [port] send findings to UDP server on [server]:[port]  
+-v verbose output  
+-vv very verbose output  
+-w [prefix] specifies output file prefix  
 
 *It is not necessary to specify which csv file is the last one (-l), but if you don't, some options won't work properly (-n and -o).
 ** The minimum and maximum times are currently defined in csvtools.c at the top as constants.
