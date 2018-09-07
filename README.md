@@ -1,4 +1,4 @@
-Airodump CSV Tools v0.5
+Airodump CSV Tools v0.6
 by Christopher Bolduc
 chris.bolduc@gmail.com
 
