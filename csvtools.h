@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> // Initially added to see what time it is
 
 // Added for execlp in the play_sound function
 #include <unistd.h>
@@ -28,6 +29,10 @@
 #include <netdb.h>
 
 #define CRLF "\r\n"
+#define POWER 1
+#define FIRSTSEEN 2
+#define LASTSEEN 3
+#define HASHTABLE_SZ 65535  // currently 2 bytes
 
 /* I decided it was easier to write my own than use the library.
  * Used by the program to compare dates, not for output.
@@ -56,6 +61,7 @@ typedef struct ap {
   char first_time_seen[80];
   char last_time_seen[80];
   char prev_last_time_seen[80];
+  char last_time_displayed[80];
   char channel[80];
   char speed[80];
   char privacy[80];
@@ -94,10 +100,12 @@ typedef struct enddev {
   char first_time_seen[80];
   char last_time_seen[80];
   char prev_last_time_seen[80];
+  char last_time_displayed[80];
   int power;
   char packets[80];
   char bssid[80];
   char essid[80];
+  char channel[80];
   char probed_essids[255];
   char fileName[80];
   char desc[80];
@@ -120,6 +128,7 @@ typedef struct enddev {
 typedef struct macdb {
   char mac[18];
   char vendor[80];
+  char essid[80];
 
   struct macdb *next;
 } macdb;
@@ -129,22 +138,49 @@ typedef struct devset {
   enddev *e;
 } devset;
 
+typedef struct aplist {
+  ap *data;
+  struct aplist *next;
+} aplist;
+
+typedef struct stalist {
+  enddev *data;
+  struct stalist *next;
+} stalist;
+
 // Prototypes
 int compareApByMac ( const void *p1, const void *p2 );
 int compareApByPwr ( const void *p1, const void *p2 );
+int compareApFirstseen ( const void *p1, const void *p2 );
+int compareApLastseen ( const void *p1, const void *p2 );
 int compareStaByMac ( const void *p1, const void *p2 );
 int compareStaByPwr ( const void *p1, const void *p2 );
+int compareStaFirstseen ( const void *p1, const void *p2 );
+int compareStaLastseen ( const void *p1, const void *p2 );
 int compareMacdb ( const void *p1, const void *p2 );
+int getMacHash ( const char *mac );
+int addApToHT(aplist *ht, ap *a);
+ap *findApHT (aplist *aps, const char *mac);
+int addStaToHT(stalist *ht, enddev *e);
+enddev *findStaHT (stalist *stl, const char *mac);
 char *str_replace(char *s, char old, char new);
-int strToTime (datetime *dest, char *str);
+int strToTime (datetime *dest, const char *str);
+char *timeToStr(const datetime *src, char *str);
 int compareDates (datetime *d1, datetime *d2);
+int compareToNow (const char *lastTimeSeen, const char *thresh);
+void getNowStr (char * str);
 void free_ap (ap *s);
 void free_enddev (enddev *e);
+void free_aplist (aplist *a);
+void free_ht_ap (aplist *aps);
+void free_stalist (stalist *s);
+void free_ht_sta (stalist *sts);
 void free_gps (gps *g);
+int isValidMacAddress(const char* mac);
 long getEssid(char *currWord, char *buffer, long i, long lSize);
 long getWord(char *currWord, char *buffer, long i, long lSize);
 ap *findApByBSSID (ap *s, char *key);
-char *findVendorByMACBin (macdb * m, char * key);
+char *findVendorByMACBin (macdb * m, int mac_db_sz, const char * key);
 char *findVendorByMAC (macdb * m, char * key);
 devset readCSVFile (char * fileName, ap *firstAp, enddev *firstEnddev, const int lastFile);
 void readMacDB (char * fileName);
@@ -160,6 +196,10 @@ void printAPPowerToFile (ap *a, FILE *f);
 void printAPPowerToFileRec (ap *a, FILE *f);
 void printEndDevicesPowerToFile (enddev *e, FILE *f);
 void printEndDevicesPowerToFileRec (enddev *e, FILE *f);
+void readAPDisplayedFromFile (ap *first, FILE *f);
+void readEnddevDisplayedFromFile (enddev *first, FILE *f);
+void printAPDisplayedToFile (ap *a, FILE *f);
+void printEndDevicesDisplayedToFile (enddev *e, FILE *f);
 void printAPToFileText (ap *a, FILE *f);
 //void printAPsToFileText (ap *a, FILE *f);
 void printEndDeviceToFileText (enddev *e, FILE *f);
