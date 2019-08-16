@@ -2,6 +2,11 @@ Airodump CSV Tools v0.6
 by Christopher Bolduc
 chris.bolduc@gmail.com
 
+Please donate if you find this tool useful:
+BTC: 3Efn2adRc53p5PRXy5D6GFzfRnpei6ct2F
+ETH: 0xf62c9915Ba85544B6763b4Cb52BF8DD14aA6bEd4
+LTC: MFaykFbRBiF1fMmSh1CQttsSLvWyMSAnim
+
 Description:  
 This is a program I wrote to analyze one or more Airodump CSV files and provide more useful output.
 
