@@ -2,14 +2,6 @@ Airodump CSV Tools v0.6
 by Christopher Bolduc  
 chris.bolduc@gmail.com  
 
-Please donate if you find this tool useful:
-
-BTC: 3EmyopuVNfGXRA3d5jdbN1uPE1AxofuvFv
-
-ETH: 0x6473B0a80A11AE219529B5CbAa16B78784C9af57
-
-LTC: MPWY6RrYbeJ3uujyBj9uQbuhFiBqSJGUUw
-
 Description:  
 This is a program I wrote to analyze one or more Airodump CSV files and provide more useful output.
 
@@ -19,6 +11,11 @@ Features:
 -Optional text output for cron, etc.  
 -Adds manufacturer info (OUI) to APs and end devices, and the ESSID (if applicable) to end devices, in text/html output modes.  
 -Adds GPS info captured from optional Android app  
+
+Please donate if you find this tool useful:
+BTC: 3EmyopuVNfGXRA3d5jdbN1uPE1AxofuvFv
+ETH: 0x6473B0a80A11AE219529B5CbAa16B78784C9af57
+LTC: MPWY6RrYbeJ3uujyBj9uQbuhFiBqSJGUUw
 
 Usage: ./csvtools [options] file1 [file2] [file3]...[-l] [file n]  
 -a only show APs  
